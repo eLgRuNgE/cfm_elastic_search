@@ -18,22 +18,22 @@ Esta demo incluye:
 ## Instalación
 
 1. Clonar este repositorio:
-> git clone https://github.com/eLgRuNgE/cfm_elastic_search
-> cd cfm_elastic_search
+    git clone https://github.com/eLgRuNgE/cfm_elastic_search
+    cd cfm_elastic_search
 
 2. Iniciar los contenedores de Elasticsearch y Kibana:
-> docker-compose up -d
+    docker-compose up -d
 
 3. Instalar las dependencias de Python:
-> pip install -r requirements.txt
+    pip install -r requirements.txt
 
 ## Uso
 
 1. Indexar el contenido del sitio web:
-> python index_content.py
+    python index_content.py
 
 2. Iniciar la interfaz web:
-> python app.py
+    python app.py
 
 3. Abrir un navegador y visitar `http://localhost:5000`
 
