@@ -4,12 +4,13 @@
 # To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/4.0/
 #####
 
+
 from flask import Flask, render_template, request, jsonify
 from elasticsearch import Elasticsearch
 
 app = Flask(__name__)
 
-# Cambia esta línea
+# Conexión a Elasticsearch
 es = Elasticsearch("http://localhost:9200")
 
 @app.route('/')
@@ -33,7 +34,6 @@ def search():
     
     res = es.search(index="website", body=search_query)
     
-    # Extraer los datos relevantes de la respuesta
     hits = []
     for hit in res['hits']['hits']:
         hits.append({
@@ -43,6 +43,34 @@ def search():
         })
     
     return jsonify({'hits': hits})
+
+@app.route('/suggest')
+def suggest():
+    query = request.args.get('q')
+    if not query:
+        return jsonify([])
+
+    suggest_query = {
+        "suggest": {
+            "website-suggest": {
+                "prefix": query,
+                "completion": {
+                    "field": "suggest",
+                    "fuzzy": {
+                        "fuzziness": "auto"
+                    }
+                }
+            }
+        }
+    }
+
+    res = es.search(index="website", body=suggest_query)
+    
+    suggestions = set()  # Usar un set para evitar duplicados
+    for option in res['suggest']['website-suggest'][0]['options']:
+        suggestions.add(option['text'])
+
+    return jsonify(list(suggestions))
 
 if __name__ == '__main__':
     app.run(debug=True)

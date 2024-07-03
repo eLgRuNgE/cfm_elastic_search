@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-input');
     const searchButton = document.getElementById('search-button');
+    const resultsDiv = document.getElementById('results');
+    const suggestionsList = document.getElementById('suggestions');
 
     function search() {
         const query = searchInput.value;
         fetch('/search?q=' + encodeURIComponent(query))
             .then(response => response.json())
             .then(data => {
-                const resultsDiv = document.getElementById('results');
                 resultsDiv.innerHTML = '';
                 if (data.hits.length === 0) {
                     resultsDiv.innerHTML = '<p>No se encontraron resultados.</p>';
@@ -23,11 +24,25 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    searchButton.addEventListener('click', search);
+    function suggest() {
+        const query = searchInput.value;
+        fetch('/suggest?q=' + encodeURIComponent(query))
+            .then(response => response.json())
+            .then(data => {
+                suggestionsList.innerHTML = '';
+                data.forEach(suggestion => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = suggestion;
+                    suggestionsList.appendChild(optionElement);
+                });
+            });
+    }
 
+    searchButton.addEventListener('click', search);
     searchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             search();
         }
     });
+    searchInput.addEventListener('input', suggest);
 });
