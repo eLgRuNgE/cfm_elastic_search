@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchButton = document.getElementById('search-button');
     const resultsDiv = document.getElementById('results');
     const suggestionsList = document.getElementById('suggestions');
+    const anomaliesDiv = document.getElementById('anomalies');
 
     function search() {
         const query = searchInput.value;
@@ -38,6 +39,26 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    function loadAnomalies() {
+        fetch('/anomalies')
+            .then(response => response.json())
+            .then(data => {
+                anomaliesDiv.innerHTML = '';
+                if (data.length === 0) {
+                    anomaliesDiv.innerHTML = '<p>No se encontraron anomalías.</p>';
+                } else {
+                    data.forEach(anomaly => {
+                        anomaliesDiv.innerHTML += `
+                            <div class="anomaly-item">
+                                <h3>Job ID: ${anomaly.job_id}</h3>
+                                <p>Anomaly Score: ${anomaly.anomaly_score}</p>
+                                <p>Timestamp: ${anomaly.timestamp}</p>
+                            </div>`;
+                    });
+                }
+            });
+    }
+
     searchButton.addEventListener('click', search);
     searchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
@@ -60,4 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
             search();
         }
     });
+
+    // Cargar anomalías al cargar la página
+    loadAnomalies();
 });

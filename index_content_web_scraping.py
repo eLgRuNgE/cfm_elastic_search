@@ -4,6 +4,7 @@
 # To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/4.0/
 #####
 
+
 from elasticsearch import Elasticsearch
 import requests
 from bs4 import BeautifulSoup
@@ -76,6 +77,7 @@ def scrape(url, base_url, depth, max_depth, visited):
         print(f"Error al acceder a {url}: {e}")
         return
 
+    response.encoding = 'utf-8'  # Asegurarse de que la codificación sea UTF-8
     soup = BeautifulSoup(response.content, 'html.parser')
     title = clean_text(soup.title.string.strip()) if soup.title and soup.title.string else url
     content = ' '.join([clean_text(p.get_text().strip()) for p in soup.find_all('p') if p.get_text().strip()])
