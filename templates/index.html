@@ -6,30 +6,29 @@
 
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>[Elastic Search] Búsqueda Comfama</title>
-        <link rel="stylesheet" href="/static/index.css">
-    </head>
-    <body>
-        <div class="header">
-            <img src="https://images.ctfassets.net/gkhyeghj07ak/38O44ZEBecqm7PU7oP8iGp/9e0fc999340233038f84d36d5e2bf6e4/magenta.svg" alt="Comfama Logo">
-            <h1>Búsqueda en el sitio de Comfama</h1>
-            <p>Esta DEMO muestra cómo utilizar Elasticsearch para implementar una función de búsqueda en el contenido de un sitio web corporativo.</p>
-            <br><br>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Elastic Search] Búsqueda Comfama</title>
+    <link rel="stylesheet" href="/static/index.css">
+</head>
+<body>
+    <div class="header">
+        <img src="https://images.ctfassets.net/gkhyeghj07ak/38O44ZEBecqm7PU7oP8iGp/9e0fc999340233038f84d36d5e2bf6e4/magenta.svg" alt="Comfama Logo">
+        <h1>Búsqueda en los sitios web de Comfama</h1>
+        <p>Esta demostración ilustra cómo utilizar Elasticsearch para implementar una función de búsqueda avanzada en el contenido de múltiples sitios web corporativos de Comfama. Con esta herramienta, puedes explorar artículos, servicios y recursos disponibles en nuestros portales en línea.</p>
+    </div>
+    <main>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Ingrese su búsqueda" list="suggestions">
+            <button id="search-button">Buscar</button>
+            <datalist id="suggestions"></datalist>
         </div>
-        <main>
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Ingrese su búsqueda" list="suggestions">
-                <button id="search-button">Buscar</button>
-                <datalist id="suggestions"></datalist>
-            </div>
-            <div id="results"></div>
-        </main>
-        <footer>
-            <p>Demo desarrollada por Fabian Callejas 2024</p>
-        </footer>
-        <script src="/static/index.js"></script>
-    </body>
+        <div id="results"></div>
+    </main>
+    <footer>
+        <p>POC desarrollada por Fabian Callejas 2024</p>
+    </footer>
+    <script src="/static/index.js"></script>
+</body>
 </html>

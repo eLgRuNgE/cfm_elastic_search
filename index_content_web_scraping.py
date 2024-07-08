@@ -9,9 +9,30 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 import time
+import re
 
 # Configuración de Elasticsearch
 es = Elasticsearch("http://localhost:9200")
+
+# Definir el mapeo para el campo suggest
+mapping = {
+    "mappings": {
+        "properties": {
+            "title": {"type": "text"},
+            "content": {"type": "text"},
+            "url": {"type": "keyword"},
+            "suggest": {
+                "type": "completion"
+            }
+        }
+    }
+}
+
+# Crear el índice con el mapeo
+index_name = "website"
+if es.indices.exists(index=index_name):
+    es.indices.delete(index=index_name)
+es.indices.create(index=index_name, body=mapping)
 
 # URLs de inicio para hacer scraping
 start_urls = [
@@ -34,6 +55,12 @@ documents = []
 # Profundidad máxima URLs
 max_depth_user = 5
 
+# Función para limpiar el texto eliminando caracteres no válidos y caracteres nulos
+def clean_text(text):
+    text = re.sub(r'[^\x00-\x7F]+', ' ', text)  # Eliminar caracteres no ASCII
+    text = text.replace('\x00', ' ')  # Eliminar caracteres nulos
+    return text.strip()
+
 # Función para realizar scraping de una URL y sus enlaces
 def scrape(url, base_url, depth, max_depth, visited):
     if depth > max_depth or url in visited:
@@ -50,16 +77,18 @@ def scrape(url, base_url, depth, max_depth, visited):
         return
 
     soup = BeautifulSoup(response.content, 'html.parser')
-    title = soup.title.string.strip() if soup.title and soup.title.string else url
-    content = ' '.join([p.get_text().strip() for p in soup.find_all('p') if p.get_text().strip()])
+    title = clean_text(soup.title.string.strip()) if soup.title and soup.title.string else url
+    content = ' '.join([clean_text(p.get_text().strip()) for p in soup.find_all('p') if p.get_text().strip()])
 
+    suggestions = list(set(title.split() + content.split()))  # Unir palabras del título y contenido, eliminar duplicados
+    
     documents.append({
         'title': title,
         'content': content,
         'url': url,
         'suggest': {
-            'input': title.split(),  # Separar palabras del título para sugerencias
-            'weight': 1  # Peso de las sugerencias, puedes ajustar según sea necesario
+            'input': suggestions,
+            'weight': 1
         }
     })
     
@@ -75,12 +104,11 @@ for start_url in start_urls:
     visited_urls = set()
     scrape(start_url, start_url, 0, max_depth_user, visited_urls)
 
-# Asegúrate de que el índice exista
-if not es.indices.exists(index="website"):
-    es.indices.create(index="website")
-
 # Indexar los documentos
 for doc in documents:
-    es.index(index="website", body=doc)
+    try:
+        es.index(index=index_name, body=doc)
+    except Exception as e:
+        print(f"Error al indexar el documento: {e}")
 
 print(f"Indexación completada. Total de documentos indexados: {len(documents)}")

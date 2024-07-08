@@ -53,7 +53,7 @@ def suggest():
     suggest_query = {
         "suggest": {
             "website-suggest": {
-                "prefix": query,
+                "prefix": query.lower(),
                 "completion": {
                     "field": "suggest",
                     "fuzzy": {
@@ -68,7 +68,7 @@ def suggest():
     
     suggestions = set()  # Usar un set para evitar duplicados
     for option in res['suggest']['website-suggest'][0]['options']:
-        suggestions.add(option['text'])
+        suggestions.add(option['text'].lower())
 
     return jsonify(list(suggestions))
 

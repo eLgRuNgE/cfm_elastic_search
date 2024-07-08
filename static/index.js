@@ -45,4 +45,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     searchInput.addEventListener('input', suggest);
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            if (suggestionsList.options.length > 0) {
+                searchInput.value = suggestionsList.options[0].value;
+                search();
+            }
+        }
+    });
+    suggestionsList.addEventListener('click', function(e) {
+        if (e.target && e.target.nodeName === "OPTION") {
+            searchInput.value = e.target.value;
+            search();
+        }
+    });
 });
