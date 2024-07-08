@@ -16,43 +16,15 @@ es = Elasticsearch("http://localhost:9200")
 # URLs de inicio para hacer scraping
 start_urls = [
     'https://www.comfama.com',
-    'https://www.comfama.com/conoce-comfama/',
-    'https://www.comfama.com/mapa-de-sedes/',
-    'https://www.comfama.com/ayuda/',
-    'https://www.comfama.com/informe2021/',
-    'https://www.comfama.com/conoce-comfama/categorias-de-afiliacion/',
-    'https://www.comfama.com/conoce-comfama/beneficios/',
-    'https://www.comfama.com/trabajo-con-proposito/empleo/trabaja-con-nosotros/',
-    'https://www.comfama.com/conoce-comfama/transparencia-acceso-informacion-publica/',
-    'https://www.comfama.com/conoce-comfama/nuestras-politicas/',
-    'https://serviciosenlinea.comfama.com/webinicio/CondicionesDeUso.html?_gl=1*1jle87d*_gcl_au*MTUyNDUzNTM3NS4xNzE4NzE4MTU0*_ga*MjExNDQyNzU3Ni4xNzE4NzE4MTU0*_ga_1V3L85HTHH*MTcyMDAzOTI0Ny41LjEuMTcyMDAzOTQwOS4xOS4wLjA.',
-    'https://www.comfama.com/notificaciones-judiciales/',
-
-    'https://www.comfama.com/conoce-comfama/contactanos/',
-    'https://www.comfama.com/peticiones/',
-    'https://www.comfama.com/conoce-comfama/carta-deberes-y-derechos-afiliados/',
-    'https://serviciosenlinea.comfama.com/contenidos/servicios/Nuestra%20organizaci%C3%B3n/compromisos-con-la-etica-y-gobierno-corporativo/compromisos-frente-a-la-etica-y-GC-VF.pdf?_gl=1*1bdb4au*_gcl_au*MTUyNDUzNTM3NS4xNzE4NzE4MTU0*_ga*MjExNDQyNzU3Ni4xNzE4NzE4MTU0*_ga_1V3L85HTHH*MTcyMDAzOTI0Ny41LjEuMTcyMDAzOTQwOS4xOS4wLjA.',
+    'https://serviciosenlinea.comfama.com/',
     'https://forms.cemtrik.com/formulario/R01X2I',
-    'https://www.comfama.com/conoce-comfama/mapa-de-sitio/',
-
-    'https://www.comfama.com/portal-servicios/personas/afiliaciones',
-    'https://www.comfama.com/portal-servicios/personas/certificados/',
-    'https://www.comfama.com/finanzas/creditos-con-proposito/',
-    'https://www.comfama.com/subsidio/',
-    'https://www.comfama.com/servicio-de-empleo/',
-    'https://www.comfama.com/salud-y-cuidado/vacunacion/',
-    'https://www.comfamapro.com/?_gl=1*15ie1ux*_gcl_au*MTUyNDUzNTM3NS4xNzE4NzE4MTU0*_ga*MjExNDQyNzU3Ni4xNzE4NzE4MTU0*_ga_PJT5623MFZ*MTcyMDAzNzE2My41LjEuMTcyMDAzOTQwOC4yMS4wLjA.',
-
-    'https://tienda.comfama.com/?_gl=1*ux4vbs*_gcl_au*MTUyNDUzNTM3NS4xNzE4NzE4MTU0*_ga*MjExNDQyNzU3Ni4xNzE4NzE4MTU0*_ga_1V3L85HTHH*MTcyMDAzOTI0Ny41LjEuMTcyMDAzOTQwOS4xOS4wLjA.',
-    'https://www.comfamapro.com/?_gl=1*15ie1ux*_gcl_au*MTUyNDUzNTM3NS4xNzE4NzE4MTU0*_ga*MjExNDQyNzU3Ni4xNzE4NzE4MTU0*_ga_PJT5623MFZ*MTcyMDAzNzE2My41LjEuMTcyMDAzOTQwOC4yMS4wLjA.',
-    'https://www.viajescomfama.com/?_gl=1*84lxon*_gcl_au*MTUyNDUzNTM3NS4xNzE4NzE4MTU0*_ga*MjExNDQyNzU3Ni4xNzE4NzE4MTU0*_ga_1V3L85HTHH*MTcyMDAzOTI0Ny41LjEuMTcyMDAzOTQwOS4xOS4wLjA.*_ga_PJT5623MFZ*MTcyMDAzNzE2My41LjEuMTcyMDAzOTQwOC4yMS4wLjA.',
-    'https://www.cosmoschools.co/?_gl=1*1i9j8xr*_gcl_au*MTUyNDUzNTM3NS4xNzE4NzE4MTU0*_ga*MjExNDQyNzU3Ni4xNzE4NzE4MTU0*_ga_PJT5623MFZ*MTcyMDAzNzE2My41LjEuMTcyMDAzOTQwOC4yMS4wLjA.',
+    'https://www.comfamapro.com/',
+    'https://tienda.comfama.com/',
+    'https://www.viajescomfama.com/',
+    'https://www.cosmoschools.co/',
     'https://agenda.comfama.com/',
-    'https://www.comfama.com/https://www.comfama.com/nutricion-saludable/',
-    'https://www.experienciascomfama.com.co/?_gl=1*1i9j8xr*_gcl_au*MTUyNDUzNTM3NS4xNzE4NzE4MTU0*_ga*MjExNDQyNzU3Ni4xNzE4NzE4MTU0*_ga_PJT5623MFZ*MTcyMDAzNzE2My41LjEuMTcyMDAzOTQwOC4yMS4wLjA.#/',
-    'https://caminoamicasa.comfama.com/login',
-    'https://www.comfama.com/aprendizaje/temporada-escolar/',
-    
+    'https://www.experienciascomfama.com.co/',
+    'https://caminoamicasa.comfama.com/',    
     'https://comfama.buk.co/'
 ]
 
