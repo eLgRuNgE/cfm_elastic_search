@@ -58,7 +58,7 @@ max_depth_user = 5
 
 # Función para limpiar el texto eliminando caracteres no válidos y caracteres nulos
 def clean_text(text):
-    text = re.sub(r'[^\x00-\x7F]+', ' ', text)  # Eliminar caracteres no ASCII
+    text = re.sub(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+', ' ', text)  # Eliminar caracteres no ASCII, pero concervando los caracteres acentuados y la ñ
     text = text.replace('\x00', ' ')  # Eliminar caracteres nulos
     return text.strip()
 
